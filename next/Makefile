@@ -1,7 +1,7 @@
 include .env
 
 # Github
-GITHUB_USER = oancea-ilie
+GITHUB_USER = Graffino
 GITHUB_REPO = Shared-Point
 GITHUB_BRANCH = master
 GITHUB_PROJECT_FOLDER = next
