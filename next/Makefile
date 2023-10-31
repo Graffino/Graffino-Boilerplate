@@ -2,7 +2,7 @@ include .env
 
 # Github
 GITHUB_USER = Graffino
-GITHUB_REPO = Shared-Point
+GITHUB_REPO = Graffino-Boilerplate
 GITHUB_BRANCH = master
 GITHUB_PROJECT_FOLDER = next
 
