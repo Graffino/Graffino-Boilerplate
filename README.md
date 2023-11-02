@@ -1,4 +1,4 @@
-# Shared Point
+# Graffino Boilerplate
 
 This repository contains a collection of configuration files. These settings include configuration files for linting, formatting, Git hooks, and more. To make it easy for others to use these settings, a Makefile is provided to download and initialize all the necessary files.
 
@@ -8,11 +8,12 @@ To use these settings in your project follow these steps:
 ### Prerequisites
 1. Prettier extension installed.
 2. Eslint extension installed.
-3. `.env` file created with Graffino GitHub access token: GITHUB_TOKEN=ghp_xxx
 
 ### Steps
 1. In your root directory, create a `Makefile`. 
-2. Copy the Makefile commands from this repository based on what project you use. (react folder for example)
+2. Copy the Makefile commands from this repository based on what project you want to use. (react folder for example)
 4. Run in terminal `make init` to download the base configuration files.
-##### At this moment only `react` and `next` are supported.
+5. Done.
+
+##### At this moment only `react` and `next` projects are supported.
 
