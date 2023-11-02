@@ -1,5 +1,3 @@
-include .env
-
 # Github
 GITHUB_USER = Graffino
 GITHUB_REPO = Graffino-Boilerplate
@@ -31,33 +29,34 @@ GITHUB_REPO_RAW = https://raw.githubusercontent.com/$(GITHUB_USER)/$(GITHUB_REPO
 .PHONY: init-eslint
 init-eslint:
 	yarn add -D @typescript-eslint/eslint-plugin prettier eslint eslint-config-prettier
-	curl -H "Authorization: token $(GITHUB_TOKEN)" -o $(ESLINT_FILE) $(GITHUB_REPO_RAW)/$(ESLINT_FILE)
-	curl -H "Authorization: token $(GITHUB_TOKEN)" -o $(ESLINT_IGNORE_FILE) $(GITHUB_REPO_RAW)/$(ESLINT_IGNORE_FILE);
+	curl -o $(ESLINT_FILE) $(GITHUB_REPO_RAW)/$(ESLINT_FILE)
+	curl -o $(ESLINT_IGNORE_FILE) $(GITHUB_REPO_RAW)/$(ESLINT_IGNORE_FILE);
 
 .PHONY: init-prettier
 init-prettier:
 	yarn add -D prettier
-	curl -H "Authorization: token $(GITHUB_TOKEN)" -o $(PRETTIER_FILE) $(GITHUB_REPO_RAW)/$(PRETTIER_FILE)
-	curl -H "Authorization: token $(GITHUB_TOKEN)" -o $(PRETTIER_IGNORE_FILE) $(GITHUB_REPO_RAW)/$(PRETTIER_IGNORE_FILE);
+	curl -o $(PRETTIER_FILE) $(GITHUB_REPO_RAW)/$(PRETTIER_FILE)
+	curl -o $(PRETTIER_IGNORE_FILE) $(GITHUB_REPO_RAW)/$(PRETTIER_IGNORE_FILE);
 
 .PHONY: init-editor-config
 init-editor-config:
-	curl -H "Authorization: token $(GITHUB_TOKEN)" -o $(EDITOR_CONFIG_FILE) $(GITHUB_REPO_RAW)/$(EDITOR_CONFIG_FILE)
+	curl -o $(EDITOR_CONFIG_FILE) $(GITHUB_REPO_RAW)/$(EDITOR_CONFIG_FILE)
 
 .PHONY: init-vs-settings
 init-vs-settings:
 	mkdir -p .vscode
-	curl -H "Authorization: token $(GITHUB_TOKEN)" -o .vscode/$(VS_SETTINGS_FILE) $(GITHUB_REPO_RAW)/$(VS_SETTINGS_FILE)
+	curl -o .vscode/$(VS_SETTINGS_FILE) $(GITHUB_REPO_RAW)/$(VS_SETTINGS_FILE)
 
 .PHONY: init-gitignore
 init-gitignore:
-	curl -H "Authorization: token $(GITHUB_TOKEN)" -o $(GITIGNORE_FILE) $(GITHUB_REPO_RAW)/$(GITIGNORE_FILE)
+	curl -o $(GITIGNORE_FILE) $(GITHUB_REPO_RAW)/$(GITIGNORE_FILE)
 
 .PHONY: init-envs
 init-envs:
-	curl -H "Authorization: token $(GITHUB_TOKEN)" -o $(ENV_EXAMPLE_FILE) $(GITHUB_REPO_RAW)/$(ENV_EXAMPLE_FILE)
-	curl -H "Authorization: token $(GITHUB_TOKEN)" -o $(ENV_PROD_FILE) $(GITHUB_REPO_RAW)/$(ENV_PROD_FILE)
-	curl -H "Authorization: token $(GITHUB_TOKEN)" -o $(ENV_STAGING_FILE) $(GITHUB_REPO_RAW)/$(ENV_STAGING_FILE)
+	echo "YOUR_VARIABLE=" >| .env
+	curl -o $(ENV_EXAMPLE_FILE) $(GITHUB_REPO_RAW)/$(ENV_EXAMPLE_FILE)
+	curl -o $(ENV_PROD_FILE) $(GITHUB_REPO_RAW)/$(ENV_PROD_FILE)
+	curl -o $(ENV_STAGING_FILE) $(GITHUB_REPO_RAW)/$(ENV_STAGING_FILE)
 
 .PHONY: init-husky
 init-husky:
@@ -69,7 +68,7 @@ init-husky:
 	echo "module.exports = { extends: ['@commitlint/config-conventional'] };" > commitlint.config.js
 	husky add .husky/commit-msg 'yarn commitlint --edit ${1}'
 	husky add .husky/pre-commit 'yarn lint-staged --concurrent false --relative'
-	curl -H "Authorization: token $(GITHUB_TOKEN)" -o $(LINT_STAGED_FILE) $(GITHUB_REPO_RAW)/$(LINT_STAGED_FILE)
+	curl -o $(LINT_STAGED_FILE) $(GITHUB_REPO_RAW)/$(LINT_STAGED_FILE)
 
 .PHONY: init
 init:
@@ -85,5 +84,5 @@ init:
 .PHONY: init-github-workflows
 init-github-workflows:
 	mkdir -p .github/workflows
-	curl -H "Authorization: token $(GITHUB_TOKEN)" -o .github/workflows/$(WORKFLOW_PROD_FILE) $(GITHUB_REPO_RAW)/$(WORKFLOW_PROD_FILE)
-	curl -H "Authorization: token $(GITHUB_TOKEN)" -o .github/workflows/$(WORKFLOW_STAGING_FILE) $(GITHUB_REPO_RAW)/$(WORKFLOW_STAGING_FILE)
+	curl -o .github/workflows/$(WORKFLOW_PROD_FILE) $(GITHUB_REPO_RAW)/$(WORKFLOW_PROD_FILE)
+	curl -o .github/workflows/$(WORKFLOW_STAGING_FILE) $(GITHUB_REPO_RAW)/$(WORKFLOW_STAGING_FILE)

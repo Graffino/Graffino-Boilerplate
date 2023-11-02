@@ -33,33 +33,34 @@ GITHUB_REPO_RAW = https://raw.githubusercontent.com/$(GITHUB_USER)/$(GITHUB_REPO
 .PHONY: init-eslint
 init-eslint:
 	yarn add -D eslint eslint-config-airbnb eslint-config-prettier eslint-plugin-react eslint-plugin-react-hooks @typescript-eslint/parser @typescript-eslint/eslint-plugin eslint-import-resolver-typescript prettier eslint-plugin-prettier eslint-config-prettier eslint-import-resolver-alias eslint-plugin-unused-imports
-	curl -H "Authorization: token $(GITHUB_TOKEN)" -o $(ESLINT_FILE) $(GITHUB_REPO_RAW)/$(ESLINT_FILE)
-	curl -H "Authorization: token $(GITHUB_TOKEN)" -o $(ESLINT_IGNORE_FILE) $(GITHUB_REPO_RAW)/$(ESLINT_IGNORE_FILE);
+	curl -o $(ESLINT_FILE) $(GITHUB_REPO_RAW)/$(ESLINT_FILE)
+	curl -o $(ESLINT_IGNORE_FILE) $(GITHUB_REPO_RAW)/$(ESLINT_IGNORE_FILE);
 
 .PHONY: init-prettier
 init-prettier:
 	yarn add -D prettier
-	curl -H "Authorization: token $(GITHUB_TOKEN)" -o $(PRETTIER_FILE) $(GITHUB_REPO_RAW)/$(PRETTIER_FILE)
-	curl -H "Authorization: token $(GITHUB_TOKEN)" -o $(PRETTIER_IGNORE_FILE) $(GITHUB_REPO_RAW)/$(PRETTIER_IGNORE_FILE);
+	curl -o $(PRETTIER_FILE) $(GITHUB_REPO_RAW)/$(PRETTIER_FILE)
+	curl -o $(PRETTIER_IGNORE_FILE) $(GITHUB_REPO_RAW)/$(PRETTIER_IGNORE_FILE);
 
 .PHONY: init-editor-config
 init-editor-config:
-	curl -H "Authorization: token $(GITHUB_TOKEN)" -o $(EDITOR_CONFIG_FILE) $(GITHUB_REPO_RAW)/$(EDITOR_CONFIG_FILE)
+	curl -o $(EDITOR_CONFIG_FILE) $(GITHUB_REPO_RAW)/$(EDITOR_CONFIG_FILE)
 
 .PHONY: init-vs-settings
 init-vs-settings:
 	mkdir -p .vscode
-	curl -H "Authorization: token $(GITHUB_TOKEN)" -o .vscode/$(VS_SETTINGS_FILE) $(GITHUB_REPO_RAW)/$(VS_SETTINGS_FILE)
+	curl -o .vscode/$(VS_SETTINGS_FILE) $(GITHUB_REPO_RAW)/$(VS_SETTINGS_FILE)
 
 .PHONY: init-gitignore
 init-gitignore:
-	curl -H "Authorization: token $(GITHUB_TOKEN)" -o $(GITIGNORE_FILE) $(GITHUB_REPO_RAW)/$(GITIGNORE_FILE)
+	curl -o $(GITIGNORE_FILE) $(GITHUB_REPO_RAW)/$(GITIGNORE_FILE)
 
 .PHONY: init-envs
 init-envs:
-	curl -H "Authorization: token $(GITHUB_TOKEN)" -o $(ENV_EXAMPLE_FILE) $(GITHUB_REPO_RAW)/$(ENV_EXAMPLE_FILE)
-	curl -H "Authorization: token $(GITHUB_TOKEN)" -o $(ENV_PROD_FILE) $(GITHUB_REPO_RAW)/$(ENV_PROD_FILE)
-	curl -H "Authorization: token $(GITHUB_TOKEN)" -o $(ENV_STAGING_FILE) $(GITHUB_REPO_RAW)/$(ENV_STAGING_FILE)
+	echo "REACT_APP_YOUR_VARIABLE=" >| .env
+	curl -o $(ENV_EXAMPLE_FILE) $(GITHUB_REPO_RAW)/$(ENV_EXAMPLE_FILE)
+	curl -o $(ENV_PROD_FILE) $(GITHUB_REPO_RAW)/$(ENV_PROD_FILE)
+	curl -o $(ENV_STAGING_FILE) $(GITHUB_REPO_RAW)/$(ENV_STAGING_FILE)
 
 .PHONY: init-husky
 init-husky:
@@ -71,7 +72,7 @@ init-husky:
 	echo "module.exports = { extends: ['@commitlint/config-conventional'] };" > commitlint.config.js
 	husky add .husky/commit-msg 'yarn commitlint --edit ${1}'
 	husky add .husky/pre-commit 'yarn lint-staged --concurrent false --relative'
-	curl -H "Authorization: token $(GITHUB_TOKEN)" -o $(LINT_STAGED_FILE) $(GITHUB_REPO_RAW)/$(LINT_STAGED_FILE)
+	curl -o $(LINT_STAGED_FILE) $(GITHUB_REPO_RAW)/$(LINT_STAGED_FILE)
 
 .PHONY: init
 init:
@@ -87,14 +88,14 @@ init:
 .PHONY: init-github-workflows
 init-github-workflows:
 	mkdir -p .github/workflows
-	curl -H "Authorization: token $(GITHUB_TOKEN)" -o .github/workflows/$(WORKFLOW_PROD_FILE) $(GITHUB_REPO_RAW)/$(WORKFLOW_PROD_FILE)
-	curl -H "Authorization: token $(GITHUB_TOKEN)" -o .github/workflows/$(WORKFLOW_STAGING_FILE) $(GITHUB_REPO_RAW)/$(WORKFLOW_STAGING_FILE)
+	curl -o .github/workflows/$(WORKFLOW_PROD_FILE) $(GITHUB_REPO_RAW)/$(WORKFLOW_PROD_FILE)
+	curl -o .github/workflows/$(WORKFLOW_STAGING_FILE) $(GITHUB_REPO_RAW)/$(WORKFLOW_STAGING_FILE)
 
 .PHONY: init-alias
 init-alias:
 	yarn add @craco/craco
 	npm pkg set scripts.start="craco start"
 	npm pkg set scripts.build="craco build"
-	curl -H "Authorization: token $(GITHUB_TOKEN)" -o $(TYPESCRIPT_PATHS_FILE) $(GITHUB_REPO_RAW)/$(TYPESCRIPT_PATHS_FILE)
-	curl -H "Authorization: token $(GITHUB_TOKEN)" -o $(CRACO_CONFIG_FILE) $(GITHUB_REPO_RAW)/$(CRACO_CONFIG_FILE)
+	curl -o $(TYPESCRIPT_PATHS_FILE) $(GITHUB_REPO_RAW)/$(TYPESCRIPT_PATHS_FILE)
+	curl -o $(CRACO_CONFIG_FILE) $(GITHUB_REPO_RAW)/$(CRACO_CONFIG_FILE)
 	awk 'NR==2 {print "\"extends\": \"./tsconfig.paths.json\","} 1' tsconfig.json > temp && mv temp tsconfig.json
